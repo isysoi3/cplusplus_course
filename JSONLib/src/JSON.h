@@ -25,10 +25,10 @@ public:
 
     JSON();
     JSON(Array array);
+    JSON(const JSON &json);
 
     void addValue(const std::string& key, Value value);
     void addValue(const JSON::Value& value);
-
 
     template<typename T>
     T* getValue(const std::string &key);
@@ -36,10 +36,9 @@ public:
     bool isEmpty();
     bool isArray();
 
-    bool operator==(const JSON& right);
-
 private:
     Object root;
+
 };
 
 template<typename T>

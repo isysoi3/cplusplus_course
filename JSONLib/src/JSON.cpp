@@ -14,24 +14,25 @@ JSON::JSON(JSON::Array array) {
     root = array;
 }
 
-//JSON::JSON(JSON const &json) {
-//    std::visit([this](Object &&arg) {
-//        if (std::holds_alternative<KeyValue>(arg)) {
-//            auto v_map = std::get<KeyValue>(arg);
-//            root = v_map;
-//        } else if (std::holds_alternative<Array>(arg)) {
-//            auto v_array = std::get<Array>(arg);
-//            root = v_array;
-//        }
-//    }, json);
-//}
-//
+JSON::JSON(const JSON &json) {
+    std::visit([this](Object &&arg) {
+        if (std::holds_alternative<KeyValue>(arg)) {
+            auto v_map = std::get<KeyValue>(arg);
+            this->root = v_map;
+        } else if (std::holds_alternative<Array>(arg)) {
+            auto v_array = std::get<Array>(arg);
+            this->root = v_array;
+        } else {
+            throw std::invalid_argument("test");
+        }
+    }, json.root);
+}
+
 //JSON::JSON(const std::string &) {
 //
 //}
 
 //methods
-
 bool JSON::isEmpty() {
     return std::visit([](Object &&arg) -> bool {
         if (std::holds_alternative<KeyValue>(arg)) {
@@ -43,6 +44,10 @@ bool JSON::isEmpty() {
         }
         return false;
     }, root);
+}
+
+bool JSON::isArray() {
+    return root.index() == 1;
 }
 
 void JSON::addValue(const std::string &key, JSON::Value value) {
@@ -63,43 +68,3 @@ void JSON::addValue(const JSON::Value& value) {
         return;
     }
 }
-
-bool JSON::isArray() {
-    return root.index() == 1;
-}
-
-//bool JSON::operator==(const JSON &right) {
-//    return this->root.index() != right.root.index();
-//}
-
-
-//bool operator==(const JSON &right) {
-//
-////    return std::visit([&](auto const& l) {
-////
-////                      }, root);
-//}
-
-//void JSON::addValue(const std::string &key, JSON::Value value) {
-//    map[key] = std::move(value);
-//}
-//
-//bool JSON::tryToAddValue(const std::string &key, JSON::Value value) {
-//    if (map.find(key) == map.end()) {
-//        addValue(key, value);
-//        return true;
-//    } else {
-//        return false;
-//    }
-//}
-//
-
-//
-//bool JSON::operator==(const JSON& json) {
-//    return this->root == json.root;
-//}
-
-//JSON::JSON(JSON json) {
-//
-//}
-

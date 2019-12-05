@@ -37,3 +37,9 @@ TEST(isNotArray, NotEquals) {
     JSON json;
     EXPECT_EQ(json.isArray(), false);
 }
+
+TEST(JSONConstr, Equals) {
+    JSON json1;
+    JSON json2 = JSON(json1);
+    EXPECT_EQ(json1.isArray(), json1.isArray());
+}
