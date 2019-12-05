@@ -9,6 +9,7 @@
 #include <map>
 #include <variant>
 #include <string>
+#include <utility>
 
 class JSON {
 private:
@@ -23,23 +24,33 @@ private:
     using Object = std::variant<KeyValue, Array>;
 
     Object root;
+
 public:
     JSON();
     JSON(Array array);
-    JSON(JSON const &json);
-    JSON(const std::string&);
 
-//
-//    void addValue(const std::string& key, Value value);
-//    bool tryToAddValue(const std::string& key, Value value);
-//
-//    const Value& getValue(const std::string& key);
+    void addValue(const std::string& key, Value value);
+    void addValue(const JSON::Value& value);
+
+
+    template<typename T>
+    T* getValue(const std::string &key);
 
     bool isEmpty();
 
-//
-//    bool operator==(const JSON& json);
+    bool operator==(const JSON& right);
 };
+
+template<typename T>
+T* JSON::getValue(const std::string &key){
+    if (std::holds_alternative<KeyValue>(root)) {
+        KeyValue v_map = std::get<KeyValue>(root);
+        return std::get_if<T>(&v_map[key]);
+    } else {
+        return nullptr;
+    }
+};
+
 
 
 #endif //JSON_JSON_H
