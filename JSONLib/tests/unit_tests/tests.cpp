@@ -6,7 +6,7 @@ TEST(EmptyJSON, Equals) {
     EXPECT_EQ(json.isEmpty(), true);
 }
 
-TEST(NoEmptyJSON, Equals) {
+TEST(AddValue, Equals) {
     JSON json;
     json.addValue("1", 2);
     EXPECT_EQ(json.isEmpty(), false);
