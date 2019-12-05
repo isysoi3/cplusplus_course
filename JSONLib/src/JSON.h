@@ -12,20 +12,17 @@
 #include <utility>
 
 class JSON {
-private:
+public:
     using Value = std::variant<void*,
-                               bool,
-                               int,
-                               double,
-                               std::string,
-                               JSON>;
+            bool,
+            int,
+            double,
+            std::string,
+            JSON>;
     using KeyValue = std::map<std::string, Value>;
     using Array = std::vector<Value>;
     using Object = std::variant<KeyValue, Array>;
 
-    Object root;
-
-public:
     JSON();
     JSON(Array array);
 
@@ -37,8 +34,12 @@ public:
     T* getValue(const std::string &key);
 
     bool isEmpty();
+    bool isArray();
 
     bool operator==(const JSON& right);
+
+private:
+    Object root;
 };
 
 template<typename T>

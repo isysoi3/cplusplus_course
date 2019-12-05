@@ -6,7 +6,9 @@
 
 
 // constructors
-JSON::JSON() = default;
+JSON::JSON() {
+    root = KeyValue();
+};
 
 JSON::JSON(JSON::Array array) {
     root = array;
@@ -60,6 +62,10 @@ void JSON::addValue(const JSON::Value& value) {
     } else {
         return;
     }
+}
+
+bool JSON::isArray() {
+    return root.index() == 1;
 }
 
 //bool JSON::operator==(const JSON &right) {

@@ -26,3 +26,14 @@ TEST(GetValueFromEmpty, Equals) {
     std::string key = "1";
     EXPECT_EQ(json.getValue<int>(key), nullptr);
 }
+
+TEST(isArray, Equals) {
+    auto array = JSON::Array();
+    JSON json = JSON(array);
+    EXPECT_EQ(json.isArray(), true);
+}
+
+TEST(isNotArray, NotEquals) {
+    JSON json;
+    EXPECT_EQ(json.isArray(), false);
+}
