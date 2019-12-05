@@ -68,3 +68,23 @@ void JSON::addValue(const JSON::Value& value) {
         return;
     }
 }
+
+std::string JSON::toString() {
+    return std::visit([this](Object &&arg) -> std::string {
+        if (std::holds_alternative<KeyValue>(arg)) {
+            auto v_map = std::get<KeyValue>(arg);
+            return "{" + this->dictToString(v_map) + "\n}";
+        } else if (std::holds_alternative<Array>(arg)) {
+            return "1223";
+        }
+        return "1223";
+    }, root);
+}
+
+std::string JSON::dictToString(KeyValue map) {
+    std::string rez = "";
+    for (const auto& [key, value] : map) {
+        rez += "\n\t" + key + " : " /*+ value*/;
+    }
+    return rez;
+}

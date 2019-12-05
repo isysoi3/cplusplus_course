@@ -36,8 +36,11 @@ public:
     bool isEmpty();
     bool isArray();
 
+    std::string toString();
+
 private:
     Object root;
+    std::string dictToString(KeyValue map);
 
 };
 
