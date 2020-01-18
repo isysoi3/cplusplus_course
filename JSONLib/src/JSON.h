@@ -14,11 +14,11 @@
 class JSON {
 public:
     using Value = std::variant<void*,
-            bool,
-            int,
-            double,
-            std::string,
-            JSON>;
+                               bool,
+                               int,
+                               double,
+                               std::string,
+                               JSON>;
     using KeyValue = std::map<std::string, Value>;
     using Array = std::vector<Value>;
     using Object = std::variant<KeyValue, Array>;
@@ -41,6 +41,8 @@ public:
 private:
     Object root;
     std::string dictToString(KeyValue map);
+    std::string arrayToString(Array array);
+    std::string valueToString(Value value);
 
 };
 

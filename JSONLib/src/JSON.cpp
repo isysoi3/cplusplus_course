@@ -4,6 +4,7 @@
 
 #include "JSON.h"
 
+using namespace std;
 
 // constructors
 JSON::JSON() {
@@ -15,31 +16,27 @@ JSON::JSON(JSON::Array array) {
 }
 
 JSON::JSON(const JSON &json) {
-    std::visit([this](Object &&arg) {
-        if (std::holds_alternative<KeyValue>(arg)) {
-            auto v_map = std::get<KeyValue>(arg);
+    visit([this](Object &&arg) {
+        if (holds_alternative<KeyValue>(arg)) {
+            auto v_map = get<KeyValue>(arg);
             this->root = v_map;
-        } else if (std::holds_alternative<Array>(arg)) {
-            auto v_array = std::get<Array>(arg);
+        } else if (holds_alternative<Array>(arg)) {
+            auto v_array = get<Array>(arg);
             this->root = v_array;
         } else {
-            throw std::invalid_argument("test");
+            throw invalid_argument("test");
         }
     }, json.root);
 }
 
-//JSON::JSON(const std::string &) {
-//
-//}
-
 //methods
 bool JSON::isEmpty() {
-    return std::visit([](Object &&arg) -> bool {
-        if (std::holds_alternative<KeyValue>(arg)) {
-            auto v_map = std::get<KeyValue>(arg);
+    return visit([](Object &&arg) -> bool {
+        if (holds_alternative<KeyValue>(arg)) {
+            auto v_map = get<KeyValue>(arg);
             return v_map.empty();
-        } else if (std::holds_alternative<Array>(arg)) {
-            auto v_array = std::get<Array>(arg);
+        } else if (holds_alternative<Array>(arg)) {
+            auto v_array = get<Array>(arg);
             return v_array.empty();
         }
         return false;
@@ -50,10 +47,10 @@ bool JSON::isArray() {
     return root.index() == 1;
 }
 
-void JSON::addValue(const std::string &key, JSON::Value value) {
-    if (std::holds_alternative<KeyValue>(root)) {
-        auto v_map = std::get<KeyValue>(root);
-        v_map[key] = std::move(value);
+void JSON::addValue(const string &key, JSON::Value value) {
+    if (holds_alternative<KeyValue>(root)) {
+        auto v_map = get<KeyValue>(root);
+        v_map[key] = value;
         root = v_map;
     } else {
         return;
@@ -61,30 +58,67 @@ void JSON::addValue(const std::string &key, JSON::Value value) {
 }
 
 void JSON::addValue(const JSON::Value& value) {
-    if (std::holds_alternative<Array>(root)) {
-        auto v_array = std::get<Array>(root);
+    if (holds_alternative<Array>(root)) {
+        auto v_array = get<Array>(root);
         v_array.push_back(value);
     } else {
         return;
     }
 }
 
-std::string JSON::toString() {
-    return std::visit([this](Object &&arg) -> std::string {
-        if (std::holds_alternative<KeyValue>(arg)) {
-            auto v_map = std::get<KeyValue>(arg);
-            return "{" + this->dictToString(v_map) + "\n}";
-        } else if (std::holds_alternative<Array>(arg)) {
-            return "1223";
+string JSON::toString() {
+    return visit([this](Object &&arg) -> string {
+        if (holds_alternative<KeyValue>(arg)) {
+            auto v_map = get<KeyValue>(arg);
+            return "{" + this->dictToString(v_map) + "}";
+        } else if (holds_alternative<Array>(arg)) {
+            auto v_array = get<Array>(arg);
+            return "[" + this->arrayToString(v_array) + "]";
         }
-        return "1223";
     }, root);
 }
 
-std::string JSON::dictToString(KeyValue map) {
-    std::string rez = "";
+string JSON::dictToString(KeyValue map) {
+    string rez = "";
+    int i = map.size();
     for (const auto& [key, value] : map) {
-        rez += "\n\t" + key + " : " /*+ value*/;
+        rez += " \"" + key + "\" : " + valueToString(value);
+        rez += i != 1 ? ", " : " ";
+        --i;
     }
     return rez;
+}
+
+string JSON::arrayToString(Array array) {
+    string rez = "";
+    int i = array.size();
+    for (const auto& value : array) {
+        rez += valueToString(value);
+        rez += i != 1 ? ", " : "";
+        --i;
+    }
+    return rez;
+}
+
+string JSON::valueToString(Value value) {
+    return visit([](Value &&arg) -> string {
+        if (holds_alternative<void*>(arg)) {
+            return "null";
+        } else if (holds_alternative<bool>(arg)) {
+            auto v_bool = get<bool>(arg);
+            return v_bool ? "true" : "false";
+        } else if (holds_alternative<int>(arg)) {
+            auto v_int = get<int>(arg);
+            return to_string(v_int);
+        } else if (holds_alternative<double>(arg)) {
+            auto v_double = get<double>(arg);
+            return to_string(v_double);
+        } else if (holds_alternative<string>(arg)) {
+            auto v_string = get<string>(arg);
+            return "\"" + v_string + "\"";
+        } else if (holds_alternative<JSON>(arg)) {
+            auto v_json = get<JSON>(arg);
+            return v_json.toString();
+        }
+    }, value);
 }
