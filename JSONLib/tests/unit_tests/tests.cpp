@@ -1,5 +1,6 @@
 #include "gtest/gtest.h"
 #include "JSON.h"
+#include "Reader.h"
 
 TEST(EmptyJSON, Equals) {
     JSON json;
@@ -84,4 +85,70 @@ TEST(ToStringComplex, Equals) {
     std::string actual = root.toString();
     EXPECT_EQ(expected, actual);
 }
+
+TEST(parseEmptyJSONString, Equals) {
+    std::string expected = "{}";
+    std::string actual = Reader().parse(expected).toString();
+
+    EXPECT_EQ(expected, actual);
+}
+
+TEST(parseBoolJSONString, Equals) {
+    std::string expected = "{ \"1\" : true }";
+    std::string actual = Reader().parse(expected).toString();
+
+    EXPECT_EQ(expected, actual);
+}
+
+TEST(parseIntJSONString, Equals) {
+    std::string expected = "{ \"1\" : 1 }";
+    std::string actual = Reader().parse(expected).toString();
+
+    EXPECT_EQ(expected, actual);
+}
+
+TEST(parseDoubleJSONString, Equals) {
+    std::string expected = "{ \"1\" : 1.4 }";
+    std::string actual = Reader().parse(expected).toString();
+
+    EXPECT_EQ(expected, actual);
+}
+
+TEST(parsNullJSONString, Equals) {
+    std::string expected = "{ \"1\" : null }";
+    std::string actual = Reader().parse(expected).toString();
+
+    EXPECT_EQ(expected, actual);
+}
+
+TEST(parsStringJSONString, Equals) {
+    std::string expected = R"({ "1" : "test" })";
+    std::string actual = Reader().parse(expected).toString();
+
+    EXPECT_EQ(expected, actual);
+}
+
+TEST(parsArrayJSONString, Equals) {
+    std::string expected = R"([1, 2])";
+    std::string actual = Reader().parse(expected).toString();
+
+    EXPECT_EQ(expected, actual);
+}
+
+TEST(parsComplexJSONString, Equals) {
+    std::string expected = R"({ "1" : null,  "array" : [{ "1" : null }, { "1" : null }],  "json" : { "1" : 1 } })";
+    std::string actual = Reader().parse(expected).toString();
+
+    EXPECT_EQ(expected, actual);
+}
+
+TEST(parsComplex2JSONString, Equals) {
+    std::string expected = "[1, 2, { \"a\" : [1, 2] }]";
+    std::string actual = Reader().parse(expected).toString();
+
+    EXPECT_EQ(expected, actual);
+}
+
+
+
 

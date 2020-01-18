@@ -61,6 +61,7 @@ void JSON::addValue(const JSON::Value& value) {
     if (holds_alternative<Array>(root)) {
         auto v_array = get<Array>(root);
         v_array.push_back(value);
+        root = v_array;
     } else {
         return;
     }
@@ -112,7 +113,9 @@ string JSON::valueToString(Value value) {
             return to_string(v_int);
         } else if (holds_alternative<double>(arg)) {
             auto v_double = get<double>(arg);
-            return to_string(v_double);
+            string str = to_string(v_double);
+            str.erase (str.find_last_not_of('0') + 1, std::string::npos);
+            return str;
         } else if (holds_alternative<string>(arg)) {
             auto v_string = get<string>(arg);
             return "\"" + v_string + "\"";

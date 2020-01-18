@@ -2,10 +2,12 @@ project(${CMAKE_PROJECT_NAME}_lib)
 
 set(HEADER_FILES
         JSON.h
+        Reader.h
 )
 set(SOURCE_FILES
         JSON.cpp
-)
+        Reader.cpp
+        Helpers.cpp)
 
 #if (EXISTS ${SOURCE_FILES})
 #    # The library contains header and source files.
