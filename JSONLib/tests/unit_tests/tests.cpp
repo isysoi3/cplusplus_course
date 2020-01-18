@@ -63,7 +63,7 @@ TEST(ToString, Equals) {
     std::string key = "1";
     root.addValue(key, value);
 
-    std::string expected = "{\n\t1 : test\n}";
+    std::string expected = R"({ "1" : "test" })";
     std::string actual = root.toString();
     EXPECT_EQ(expected, actual);
 }
@@ -80,7 +80,7 @@ TEST(ToStringComplex, Equals) {
     JSON child = JSON(array);
     root.addValue("array", child);
 
-    std::string expected = "{\n\t1 : test\n}";
+    std::string expected = R"({ "1" : "test",  "array" : [1, 2] })";
     std::string actual = root.toString();
     EXPECT_EQ(expected, actual);
 }
