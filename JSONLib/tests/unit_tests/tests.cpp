@@ -32,8 +32,8 @@ TEST(GetValue, Equals) {
 TEST(GetValueFromEmpty, Equals) {
     JSON json;
     std::string key = "1";
-    int* expected = nullptr;
-    int* actual = json.getValue<int>(key);
+    int *expected = nullptr;
+    int *actual = json.getValue<int>(key);
     EXPECT_EQ(expected, actual);
 }
 
@@ -155,7 +155,7 @@ TEST(invlaidJSON, Equals) {
 
     try {
         Reader().parse(jsonString).toString();
-    } catch (ReaderException& ex) {
+    } catch (ReaderException &ex) {
         std::string actual = ex.what();
         EXPECT_EQ(expected, actual);
     }
@@ -167,7 +167,7 @@ TEST(badStateJSON, Equals) {
 
     try {
         Reader().parse(jsonString).toString();
-    } catch (ReaderException& ex) {
+    } catch (ReaderException &ex) {
         std::string actual = ex.what();
         EXPECT_EQ(expected, actual);
     }
@@ -179,7 +179,7 @@ TEST(invalidFormatJSON, Equals) {
 
     try {
         Reader().parse(jsonString).toString();
-    } catch (ReaderException& ex) {
+    } catch (ReaderException &ex) {
         std::string actual = ex.what();
         EXPECT_EQ(expected, actual);
     }
@@ -191,7 +191,7 @@ TEST(parsingFailedJSON, Equals) {
 
     try {
         Reader().parse(jsonString).toString();
-    } catch (ReaderException& ex) {
+    } catch (ReaderException &ex) {
         std::string actual = ex.what();
         EXPECT_EQ(expected, actual);
     }
