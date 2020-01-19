@@ -5,6 +5,9 @@
 #ifndef JSON_JSONEXCEPTION_H
 #define JSON_JSONEXCEPTION_H
 
+#include <exception>
+#include <string>
+
 class JSONException : public std::exception {
 public:
     explicit JSONException(const char *message)
