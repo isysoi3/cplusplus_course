@@ -56,7 +56,7 @@ void JSON::addValue(const string &key, JSON::Value value) {
         v_map[key] = value;
         root = v_map;
     } else {
-        throw JSONException("Faild to add KeyValue to Array");
+        throw JSONException("Failed to add KeyValue to Array");
     }
 }
 
@@ -66,7 +66,7 @@ void JSON::addValue(const JSON::Value &value) {
         v_array.push_back(value);
         root = v_array;
     } else {
-        throw JSONException("Faild to add value to KeyValue");
+        throw JSONException("Failed to add value to KeyValue");
     }
 }
 
