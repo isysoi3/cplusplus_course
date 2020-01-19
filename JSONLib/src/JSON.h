@@ -10,6 +10,7 @@
 #include <variant>
 #include <string>
 #include <utility>
+#include <iostream>
 
 class JSON {
 public:
@@ -40,16 +41,20 @@ public:
 
     bool isArray();
 
-    std::string toString();
+    std::string toString() const;
+
+    friend std::ostream &operator<<(std::ostream &out, const JSON &j);
+
+    friend std::istream &operator>>(std::istream &in, JSON &j);
 
 private:
     Object root;
 
-    std::string dictToString(KeyValue map);
+    std::string dictToString(KeyValue map) const;
 
-    std::string arrayToString(Array array);
+    std::string arrayToString(Array array) const;
 
-    std::string valueToString(Value value);
+    std::string valueToString(Value value) const;
 
 };
 
@@ -61,7 +66,6 @@ T *JSON::getValue(const std::string &key) {
     } else {
         return nullptr;
     }
-};
-
+}
 
 #endif //JSON_JSON_H

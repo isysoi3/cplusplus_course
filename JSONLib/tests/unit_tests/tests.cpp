@@ -197,3 +197,13 @@ TEST(parsingFailedJSON, Equals) {
     }
 }
 
+TEST(inputAndOutputStreams, Equals) {
+    std::string expected = "[1, 2]";
+    std::stringstream ss;
+    JSON json;
+    ss << expected;
+    ss >> json;
+    std::string actual = Reader().parse(expected).toString();
+
+    EXPECT_EQ(expected, actual);
+}

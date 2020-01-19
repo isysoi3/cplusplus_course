@@ -3,6 +3,7 @@
 //
 
 #include "JSON.h"
+#include "Reader.h"
 
 using namespace std;
 
@@ -67,7 +68,7 @@ void JSON::addValue(const JSON::Value &value) {
     }
 }
 
-string JSON::toString() {
+string JSON::toString() const {
     return visit([this](Object &&arg) -> string {
         if (holds_alternative<KeyValue>(arg)) {
             auto v_map = get<KeyValue>(arg);
@@ -79,7 +80,7 @@ string JSON::toString() {
     }, root);
 }
 
-string JSON::dictToString(KeyValue map) {
+string JSON::dictToString(KeyValue map) const {
     string rez = "";
     int i = map.size();
     for (const auto&[key, value] : map) {
@@ -90,7 +91,7 @@ string JSON::dictToString(KeyValue map) {
     return rez;
 }
 
-string JSON::arrayToString(Array array) {
+string JSON::arrayToString(Array array) const {
     string rez = "";
     int i = array.size();
     for (const auto &value : array) {
@@ -101,7 +102,7 @@ string JSON::arrayToString(Array array) {
     return rez;
 }
 
-string JSON::valueToString(Value value) {
+string JSON::valueToString(Value value) const {
     return visit([](Value &&arg) -> string {
         if (holds_alternative<void *>(arg)) {
             return "null";
@@ -125,3 +126,15 @@ string JSON::valueToString(Value value) {
         }
     }, value);
 }
+
+std::ostream &operator<<(std::ostream &out, const JSON &j) {
+    out << j.toString();
+    return out;
+}
+
+std::istream &operator>>(std::istream &in, JSON &j) {
+    std::string str;
+    std::getline(in, str);
+    j = Reader().parse(str);
+    return in;
+};

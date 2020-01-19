@@ -36,7 +36,6 @@ public:
     JSON parse(const std::string &jsonString);
 
 private:
-    JSON root;
     std::stack<std::string> s;
     std::stack<JSON::Value> s_value;
 
