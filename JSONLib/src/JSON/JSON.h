@@ -35,7 +35,9 @@ public:
     void addValue(const JSON::Value &value);
 
     template<typename T>
-    T *getValue(const std::string &key);
+    std::optional<T> getValue(const std::string &key);
+
+    std::optional<Array> asArray();
 
     bool isEmpty();
 
@@ -73,12 +75,16 @@ private:
 };
 
 template<typename T>
-T *JSON::getValue(const std::string &key) {
+std::optional<T> JSON::getValue(const std::string &key) {
     if (std::holds_alternative<KeyValue>(root)) {
         KeyValue v_map = std::get<KeyValue>(root);
-        return std::get_if<T>(&v_map[key]);
+        try {
+            return std::optional<T>{ std::get<T>(v_map[key]) };
+        } catch (std::bad_variant_access ex) {
+            return std::nullopt;
+        }
     } else {
-        return nullptr;
+        return std::nullopt;
     }
 }
 

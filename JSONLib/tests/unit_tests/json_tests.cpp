@@ -1,7 +1,5 @@
-#include <Reader/ReaderException.h>
 #include "gtest/gtest.h"
 #include "JSON/JSON.h"
-#include "Reader/Reader.h"
 
 TEST(isEmpty, Equals) {
     JSON json;
@@ -31,39 +29,11 @@ TEST(isNotArray, Equals) {
     EXPECT_EQ(expected, actual);
 }
 
-TEST(addValue, Equals) {
+TEST(edit, Equals) {
     JSON json;
     json.addValue("1", 2);
     bool expected = false;
     bool actual = json.isEmpty();
-    EXPECT_EQ(expected, actual);
-}
-
-TEST(editValue, Equals) {
-    JSON json;
-    json.addValue("1", 2);
-    bool expected = false;
-    bool actual = json.isEmpty();
-    EXPECT_EQ(expected, actual);
-}
-
-TEST(getValue, Equals) {
-    JSON json;
-    std::string value = "test";
-    std::string key = "1";
-    json.addValue(key, value);
-
-    std::string expected = value;
-    auto actual = json.getValue<std::string>(key);
-
-    EXPECT_EQ(expected, actual->c_str());
-}
-
-TEST(getValueFromEmpty, Equals) {
-    JSON json;
-    std::string key = "1";
-    int *expected = nullptr;
-    int *actual = json.getValue<int>(key);
     EXPECT_EQ(expected, actual);
 }
 

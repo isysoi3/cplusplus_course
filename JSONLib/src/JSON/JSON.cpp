@@ -216,3 +216,11 @@ JSON::Value JSON::operator[](const std::string &key) const {
         throw JSONException("Bad access with string to array");
     }
 };
+
+std::optional<JSON::Array> JSON::asArray() {
+    if (std::holds_alternative<Array>(root)) {
+        return std::get<Array>(root);
+    } else {
+        return std::nullopt;
+    }
+}
