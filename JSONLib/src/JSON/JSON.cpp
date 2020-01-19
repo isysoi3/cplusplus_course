@@ -3,7 +3,7 @@
 //
 
 #include "JSON.h"
-#include "Reader.h"
+#include "Reader/Reader.h"
 
 using namespace std;
 

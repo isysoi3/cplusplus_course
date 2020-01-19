@@ -1,6 +1,7 @@
+#include <Reader/ReaderException.h>
 #include "gtest/gtest.h"
-#include "JSON.h"
-#include "Reader.h"
+#include "JSON/JSON.h"
+#include "Reader/Reader.h"
 
 TEST(EmptyJSON, Equals) {
     JSON json;

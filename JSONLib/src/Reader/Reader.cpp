@@ -3,7 +3,8 @@
 //
 
 #include "Reader.h"
-#include "Helpers.cpp"
+#include "Utils/Helpers.cpp"
+#include "ReaderException.h"
 
 using namespace std;
 

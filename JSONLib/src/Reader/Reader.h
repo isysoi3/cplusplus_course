@@ -6,26 +6,8 @@
 #define JSON_READER_H
 
 #include <string>
-#include "JSON.h"
+#include "JSON/JSON.h"
 #include <stack>
-
-class ReaderException : public std::exception {
-public:
-    explicit ReaderException(const char *message)
-            : msg_(message) {}
-
-    explicit ReaderException(const std::string &message)
-            : msg_(message) {}
-
-    virtual ~ReaderException() throw() {}
-
-    virtual const char *what() const throw() {
-        return msg_.c_str();
-    }
-
-protected:
-    std::string msg_;
-};
 
 class Reader {
 public:
