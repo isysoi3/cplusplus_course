@@ -5,64 +5,7 @@
 #include "Reader.h"
 #include "Helpers.cpp"
 
-//{ "1" : null,  "array" : [{ "1" : null }, { "1" : null }],  "json" : { "1" : 1 } }
-
 using namespace std;
-
-//ReaderException invalidString() {
-//    return ReaderException("invalid string format");
-//}
-//JSON Reader::parseKeyValue(string keyValueString) {
-//    JSON json;
-//    if (keyValueString.empty()) return json;
-//    int i = 0;
-//    int first;
-//    int last;
-//    while (i < keyValueString.size()) {
-//        if (keyValueString[i] == ' ') {
-//            i++;
-//            continue;
-//        }
-//        if (keyValueString[i] == '{') {
-//            i++;
-//            continue;
-//        }
-//        if (keyValueString[i] == '[') {
-//            i++;
-//            continue;
-//        }
-//        if (keyValueString[i] == '"') {
-//            string key = parseString()
-//        }
-//    }
-//    for(char c : keyValueString) {
-//        if (c == ' ') continue;
-//        if (c == '"') {
-//            string key = parseString()
-//        }
-//    }
-//    return json;
-//}
-//
-//JSON Reader::parseArray(string arrayString) {
-//    return JSON();
-//}
-//
-//JSON Reader::parse(string jsonString) {
-//    if (jsonString.empty()) throw ReaderException("invalid string format");
-//    int size = jsonString.size();
-//    int first = jsonString[0];
-//    int last = jsonString[size - 1];
-//    bool isArray = first == '[' && last == ']';
-//    bool isKeyValue = first == '{' && last == '}';
-//    if ((isArray && isKeyValue)
-//        || (!isArray && !isKeyValue)) {
-//        throw ReaderException("invalid format");
-//    }
-//    string substr = jsonString.substr(1, size - 2);
-//    return isArray ? parseArray(substr) : parseKeyValue(substr);
-//}
-
 
 // helpers
 bool Reader::isDeliminator(char value) {
