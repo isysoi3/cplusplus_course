@@ -53,6 +53,7 @@ JSON Reader::parse(const string& jsonString) {
     for (auto & it : scan) { parser(it); }
     JSON json = get<JSON>(s_value.top());
     s_value.pop();
+    if (!s_value.empty()) throw ReaderException("Invalid json");
     return json;
 }
 
