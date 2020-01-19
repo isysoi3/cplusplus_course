@@ -45,16 +45,30 @@ public:
 
     friend std::ostream &operator<<(std::ostream &out, const JSON &j);
 
+    friend std::ostream &operator<<(std::ostream &out, const Value &v);
+
     friend std::istream &operator>>(std::istream &in, JSON &j);
+
+    friend bool operator==(const JSON& l, const JSON& r);
+
+    friend bool operator!=(const JSON& l, const JSON& r);
+
+    friend bool operator==(const Value& l, const Value& r);
+
+    friend bool operator!=(const Value& l, const Value& r);
+
+    Value operator[](const std::string &key) const;
+
+    Value operator[](int index) const;
 
 private:
     Object root;
 
-    std::string dictToString(KeyValue map) const;
+    std::string dictToString(const KeyValue &map) const;
 
-    std::string arrayToString(Array array) const;
+    std::string arrayToString(const Array &array) const;
 
-    std::string valueToString(Value value) const;
+    static std::string valueToString(const Value &value);
 
 };
 

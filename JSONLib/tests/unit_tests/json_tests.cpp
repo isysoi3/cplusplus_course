@@ -68,7 +68,19 @@ TEST(getValueFromEmpty, Equals) {
 }
 
 TEST(copyJSON, Equals) {
-    JSON json1;
-    JSON json2 = JSON(json1);
-    EXPECT_EQ(json1.isArray(), json1.isArray());
+    JSON json1 = JSON();
+    JSON json2 = json1;
+
+    EXPECT_EQ(json1, json2);
+}
+
+TEST(copyJSONAndEdit, NotEquals) {
+    std::string key = "test";
+
+    JSON json1 = JSON();
+    json1.addValue(key, 1);
+    JSON json2 = json1;
+    json2.addValue(key, 2);
+
+    EXPECT_NE(json1[key], json2[key]);
 }
