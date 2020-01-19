@@ -9,29 +9,31 @@
 #include "JSON.h"
 #include <stack>
 
-class ReaderException: public std::exception {
+class ReaderException : public std::exception {
 public:
-explicit ReaderException(const char* message)
-        :msg_(message) {}
+    explicit ReaderException(const char *message)
+            : msg_(message) {}
 
-explicit ReaderException(const std::string& message)
-        :msg_(message) {}
+    explicit ReaderException(const std::string &message)
+            : msg_(message) {}
 
-virtual ~ReaderException() throw (){}
+    virtual ~ReaderException() throw() {}
 
-virtual const char* what() const throw (){
-    return msg_.c_str();
-}
+    virtual const char *what() const throw() {
+        return msg_.c_str();
+    }
 
 protected:
-std::string msg_;
+    std::string msg_;
 };
 
 class Reader {
 public:
-    Reader() { };
+    Reader() {};
+
     ~Reader() = default;
-    JSON parse(const std::string& jsonString);
+
+    JSON parse(const std::string &jsonString);
 
 private:
     JSON root;
@@ -50,13 +52,13 @@ private:
         follow
     };
     std::map<std::string, stack_map> stack_conversion = {
-            { "[", list_open },
-            { "]", list_close },
-            { "{", object_open },
-            { "}", object_close },
-            { ":", colon },
-            { ",", comma },
-            { "buffer", buffer }
+            {"[",      list_open},
+            {"]",      list_close},
+            {"{",      object_open},
+            {"}",      object_close},
+            {":",      colon},
+            {",",      comma},
+            {"buffer", buffer}
     };
 
     // FSM
@@ -69,30 +71,35 @@ private:
         default_value,
         bad_state
     };
+
     state fsm(std::string);
 
     // Helpers
     bool isDeliminator(char);
-    void pushBuffer();
 
+    void pushBuffer();
 
 
     // Parser helper functions
     void insert(std::string &);
+
     void addJSONElement();
+
     void addArrayElement();
+
     template<typename T>
     void insert(std::string &, T (*)(const std::string &));
+
     template<typename T>
     void insert();
 
     // Parser
-    void parser(const std::string & cursor);
+    void parser(const std::string &cursor);
 };
 
 
 template<typename T>
-void Reader::insert(std::string & value, T (*fptr)(const std::string &)) {
+void Reader::insert(std::string &value, T (*fptr)(const std::string &)) {
     T T_value(fptr(value));
     s_value.push(T_value);
 }

@@ -4,15 +4,15 @@
 
 #include <string>
 
-static int toInt(const std::string & value) {
+static int toInt(const std::string &value) {
     return stoi(value);
 }
 
-static double toDouble(const std::string & value) {
+static double toDouble(const std::string &value) {
     return stod(value);
 }
 
-static bool toBool(const std::string & value) {
+static bool toBool(const std::string &value) {
     return value == "true";
 }
 

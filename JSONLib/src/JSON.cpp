@@ -57,7 +57,7 @@ void JSON::addValue(const string &key, JSON::Value value) {
     }
 }
 
-void JSON::addValue(const JSON::Value& value) {
+void JSON::addValue(const JSON::Value &value) {
     if (holds_alternative<Array>(root)) {
         auto v_array = get<Array>(root);
         v_array.push_back(value);
@@ -82,7 +82,7 @@ string JSON::toString() {
 string JSON::dictToString(KeyValue map) {
     string rez = "";
     int i = map.size();
-    for (const auto& [key, value] : map) {
+    for (const auto&[key, value] : map) {
         rez += " \"" + key + "\" : " + valueToString(value);
         rez += i != 1 ? ", " : " ";
         --i;
@@ -93,7 +93,7 @@ string JSON::dictToString(KeyValue map) {
 string JSON::arrayToString(Array array) {
     string rez = "";
     int i = array.size();
-    for (const auto& value : array) {
+    for (const auto &value : array) {
         rez += valueToString(value);
         rez += i != 1 ? ", " : "";
         --i;
@@ -103,7 +103,7 @@ string JSON::arrayToString(Array array) {
 
 string JSON::valueToString(Value value) {
     return visit([](Value &&arg) -> string {
-        if (holds_alternative<void*>(arg)) {
+        if (holds_alternative<void *>(arg)) {
             return "null";
         } else if (holds_alternative<bool>(arg)) {
             auto v_bool = get<bool>(arg);
@@ -114,7 +114,7 @@ string JSON::valueToString(Value value) {
         } else if (holds_alternative<double>(arg)) {
             auto v_double = get<double>(arg);
             string str = to_string(v_double);
-            str.erase (str.find_last_not_of('0') + 1, std::string::npos);
+            str.erase(str.find_last_not_of('0') + 1, std::string::npos);
             return str;
         } else if (holds_alternative<string>(arg)) {
             auto v_string = get<string>(arg);

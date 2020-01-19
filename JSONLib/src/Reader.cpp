@@ -33,11 +33,11 @@ void Reader::pushBuffer() {
 }
 
 // Parsing
-JSON Reader::parse(const string& jsonString) {
+JSON Reader::parse(const string &jsonString) {
     std::string capture = "";
     std::vector<std::string> scan;
 
-    for(char c : jsonString) {
+    for (char c : jsonString) {
         if (isDeliminator(c)) {
             trim(capture);
             if (!capture.empty()) {
@@ -50,7 +50,7 @@ JSON Reader::parse(const string& jsonString) {
         }
     }
     scan.emplace_back("terminate");
-    for (auto & it : scan) { parser(it); }
+    for (auto &it : scan) { parser(it); }
 
     if (s_value.size() != 1) throw ReaderException("Invalid json");
     JSON json = get<JSON>(s_value.top());
@@ -58,12 +58,12 @@ JSON Reader::parse(const string& jsonString) {
     return json;
 }
 
-void Reader::parser(const std::string & cursor) {
+void Reader::parser(const std::string &cursor) {
     if (!s.empty()) {
         std::string value = s.top();
         stack_map stack_value = stack_conversion.find(value) != stack_conversion.end()
-                ? stack_conversion[value]
-                : follow;
+                                ? stack_conversion[value]
+                                : follow;
 
         switch (stack_value) {
             case buffer:
@@ -120,7 +120,7 @@ void Reader::parser(const std::string & cursor) {
                         insert<bool>(value, toBool);
                         break;
                     case null_value:
-                        insert<void*>();
+                        insert<void *>();
                         break;
                     default:
                         throw ReaderException("Bad state");
@@ -137,7 +137,7 @@ void Reader::parser(const std::string & cursor) {
 // FSM
 Reader::state Reader::fsm(std::string value) {
     state current = default_value;
-    for(char point : value) {
+    for (char point : value) {
         if (point == '"' & current == default_value) {
             current = string_value;
             break;
@@ -176,7 +176,7 @@ Reader::state Reader::fsm(std::string value) {
 }
 
 // Parser Helper functions
-void Reader::insert(std::string & value) {
+void Reader::insert(std::string &value) {
     value.erase(std::remove(value.begin(), value.end(), '"'), value.end());
     s_value.push(value);
 }
@@ -192,7 +192,7 @@ void Reader::addJSONElement() {
 
     try {
         key_read = std::get<std::string>(s_value.top());
-    } catch (exception& e) {
+    } catch (exception &e) {
         throw ReaderException("Invalid format");
     }
     s_value.pop();
