@@ -11,23 +11,20 @@
 
 class ReaderException: public std::exception {
 public:
+explicit ReaderException(const char* message)
+        :msg_(message) {}
 
-    explicit ReaderException(const char* message)
-            :msg_(message) {}
+explicit ReaderException(const std::string& message)
+        :msg_(message) {}
 
-    explicit ReaderException(const std::string& message)
-            :msg_(message) {}
+virtual ~ReaderException() throw (){}
 
-    virtual ~ReaderException() throw (){}
-
-    virtual const char* what() const throw (){
-        return msg_.c_str();
-    }
+virtual const char* what() const throw (){
+    return msg_.c_str();
+}
 
 protected:
-    /** Error message.
-     */
-    std::string msg_;
+std::string msg_;
 };
 
 class Reader {

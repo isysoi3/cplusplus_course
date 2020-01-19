@@ -51,9 +51,10 @@ JSON Reader::parse(const string& jsonString) {
     }
     scan.emplace_back("terminate");
     for (auto & it : scan) { parser(it); }
+
+    if (s_value.size() != 1) throw ReaderException("Invalid json");
     JSON json = get<JSON>(s_value.top());
     s_value.pop();
-    if (!s_value.empty()) throw ReaderException("Invalid json");
     return json;
 }
 
@@ -181,18 +182,26 @@ void Reader::insert(std::string & value) {
 }
 
 void Reader::addJSONElement() {
+    if (s_value.size() < 2) throw ReaderException("Parsing failed");
+
     JSON::Value value_read;
     std::string key_read;
 
     value_read = s_value.top();
     s_value.pop();
-    key_read = std::get<std::string>(s_value.top());
+
+    try {
+        key_read = std::get<std::string>(s_value.top());
+    } catch (exception& e) {
+        throw ReaderException("Invalid format");
+    }
     s_value.pop();
 
     std::get<JSON>(s_value.top()).addValue(key_read, value_read);
 }
 
 void Reader::addArrayElement() {
+    if (s_value.size() < 2) throw ReaderException("Parsing failed");
     JSON::Value value_read;
 
     value_read = s_value.top();

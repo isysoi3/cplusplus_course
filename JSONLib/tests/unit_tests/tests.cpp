@@ -86,69 +86,114 @@ TEST(ToStringComplex, Equals) {
     EXPECT_EQ(expected, actual);
 }
 
-TEST(parseEmptyJSONString, Equals) {
+TEST(parseeEmptyJSONString, Equals) {
     std::string expected = "{}";
     std::string actual = Reader().parse(expected).toString();
 
     EXPECT_EQ(expected, actual);
 }
 
-TEST(parseBoolJSONString, Equals) {
+TEST(parseeBoolJSONString, Equals) {
     std::string expected = "{ \"1\" : true }";
     std::string actual = Reader().parse(expected).toString();
 
     EXPECT_EQ(expected, actual);
 }
 
-TEST(parseIntJSONString, Equals) {
+TEST(parseeIntJSONString, Equals) {
     std::string expected = "{ \"1\" : 1 }";
     std::string actual = Reader().parse(expected).toString();
 
     EXPECT_EQ(expected, actual);
 }
 
-TEST(parseDoubleJSONString, Equals) {
+TEST(parseeDoubleJSONString, Equals) {
     std::string expected = "{ \"1\" : 1.4 }";
     std::string actual = Reader().parse(expected).toString();
 
     EXPECT_EQ(expected, actual);
 }
 
-TEST(parsNullJSONString, Equals) {
+TEST(parseNullJSONString, Equals) {
     std::string expected = "{ \"1\" : null }";
     std::string actual = Reader().parse(expected).toString();
 
     EXPECT_EQ(expected, actual);
 }
 
-TEST(parsStringJSONString, Equals) {
+TEST(parseStringJSONString, Equals) {
     std::string expected = R"({ "1" : "test" })";
     std::string actual = Reader().parse(expected).toString();
 
     EXPECT_EQ(expected, actual);
 }
 
-TEST(parsArrayJSONString, Equals) {
+TEST(parseArrayJSONString, Equals) {
     std::string expected = R"([1, 2])";
     std::string actual = Reader().parse(expected).toString();
 
     EXPECT_EQ(expected, actual);
 }
 
-TEST(parsComplexJSONString, Equals) {
+TEST(parseComplexJSONString, Equals) {
     std::string expected = R"({ "1" : null,  "array" : [{ "1" : null }, { "1" : null }],  "json" : { "1" : 1 } })";
     std::string actual = Reader().parse(expected).toString();
 
     EXPECT_EQ(expected, actual);
 }
 
-TEST(parsComplex2JSONString, Equals) {
+TEST(parseComplex2JSONString, Equals) {
     std::string expected = "[1, 2, { \"a\" : [1, 2] }]";
     std::string actual = Reader().parse(expected).toString();
 
     EXPECT_EQ(expected, actual);
 }
 
+TEST(invlaidJSON, Equals) {
+    std::string jsonString = "[1, 2, { \"a\": [1, 2] }";
+    std::string expected = "Invalid json";
 
+    try {
+        Reader().parse(jsonString).toString();
+    } catch (ReaderException& ex) {
+        std::string actual = ex.what();
+        EXPECT_EQ(expected, actual);
+    }
+}
 
+TEST(badStateJSON, Equals) {
+    std::string jsonString = "[1, 2, { 1 : nil }";
+    std::string expected = "Bad state";
+
+    try {
+        Reader().parse(jsonString).toString();
+    } catch (ReaderException& ex) {
+        std::string actual = ex.what();
+        EXPECT_EQ(expected, actual);
+    }
+}
+
+TEST(invalidFormatJSON, Equals) {
+    std::string jsonString = "{ 1 : 1}";
+    std::string expected = "Invalid format";
+
+    try {
+        Reader().parse(jsonString).toString();
+    } catch (ReaderException& ex) {
+        std::string actual = ex.what();
+        EXPECT_EQ(expected, actual);
+    }
+}
+
+TEST(parsingFailedJSON, Equals) {
+    std::string jsonString = "[1, , { 1 : }";
+    std::string expected = "Parsing failed";
+
+    try {
+        Reader().parse(jsonString).toString();
+    } catch (ReaderException& ex) {
+        std::string actual = ex.what();
+        EXPECT_EQ(expected, actual);
+    }
+}
 
