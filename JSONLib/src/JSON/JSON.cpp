@@ -87,7 +87,7 @@ void JSON::editValue(const std::string &forKey, const JSON::Value &newValue) {
 void JSON::editValue(int atIndex, const JSON::Value &newValue) {
     if (holds_alternative<Array>(root)) {
         auto v_array = get<Array>(root);
-        if (atIndex < 0 && atIndex >= v_array.size()) throw JSONException("Invalid index");
+        if (atIndex < 0  || atIndex >= v_array.size()) throw JSONException("Invalid index");
         v_array[atIndex] = newValue;
         root = v_array;
     } else {
@@ -226,7 +226,7 @@ bool operator!=(const JSON::Value& l, const JSON::Value& r) {
 JSON::Value JSON::operator[](int index) const {
     if (std::holds_alternative<Array>(root)) {
         auto v_array = std::get<Array>(root);
-        if (index < 0 && index >= v_array.size()) throw JSONException("Invalid index");
+        if (index < 0 || index >= v_array.size()) throw JSONException("Invalid index");
         return v_array[index];
     } else {
         throw JSONException("Bad access with string to array");
