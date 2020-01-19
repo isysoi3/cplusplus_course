@@ -70,6 +70,31 @@ void JSON::addValue(const JSON::Value &value) {
     }
 }
 
+void JSON::editValue(const std::string &forKey, const JSON::Value &newValue) {
+    if (holds_alternative<KeyValue>(root)) {
+        auto v_map = get<KeyValue>(root);
+        if (v_map.find(forKey) != v_map.end()) {
+            v_map[forKey] = newValue;
+            root = v_map;
+        } else {
+            throw JSONException("No value for key");
+        }
+    } else {
+        throw JSONException("Failed to edit KeyValue in Array");
+    }
+}
+
+void JSON::editValue(int atIndex, const JSON::Value &newValue) {
+    if (holds_alternative<Array>(root)) {
+        auto v_array = get<Array>(root);
+        if (atIndex < 0 && atIndex >= v_array.size()) throw JSONException("Invalid index");
+        v_array[atIndex] = newValue;
+        root = v_array;
+    } else {
+        throw JSONException("Failed to edit value in KeyValue");
+    }
+}
+
 string JSON::toString() const {
     return visit([this](Object &&arg) -> string {
         if (holds_alternative<KeyValue>(arg)) {

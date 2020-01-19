@@ -29,14 +29,6 @@ TEST(isNotArray, Equals) {
     EXPECT_EQ(expected, actual);
 }
 
-TEST(edit, Equals) {
-    JSON json;
-    json.addValue("1", 2);
-    bool expected = false;
-    bool actual = json.isEmpty();
-    EXPECT_EQ(expected, actual);
-}
-
 TEST(copyJSON, Equals) {
     JSON json1 = JSON();
     JSON json2 = json1;

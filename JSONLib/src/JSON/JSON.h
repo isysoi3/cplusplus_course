@@ -34,6 +34,10 @@ public:
 
     void addValue(const JSON::Value &value);
 
+    void editValue(const std::string &forKey, const Value &newValue);
+
+    void editValue(int atIndex, const Value &newValue);
+
     template<typename T>
     std::optional<T> getValue(const std::string &key);
 
