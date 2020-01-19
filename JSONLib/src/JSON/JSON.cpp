@@ -151,18 +151,18 @@ bool operator==(const JSON& l, const JSON& r) {
     return visit([r](JSON::Object &&arg) -> bool {
         if (holds_alternative<JSON::KeyValue>(arg)) {
             auto v_map_l = get<JSON::KeyValue>(arg);
-            auto v_map_r = get<JSON::KeyValue>(arg);
+            auto v_map_r = get<JSON::KeyValue>(r.root);
             return v_map_l == v_map_r;
         } else if (holds_alternative<JSON::Array>(arg)) {
             auto v_array_l = get<JSON::Array>(arg);
-            auto v_array_r = get<JSON::Array>(arg);
+            auto v_array_r = get<JSON::Array>(r.root);
             return v_array_l == v_array_r;
         }
     }, l.root);
 }
 
 bool operator!=(const JSON& l, const JSON& r) {
-    return l == r ? false : true;
+    return !(l == r);
 }
 
 bool operator==(const JSON::Value& l, const JSON::Value& r) {
@@ -183,8 +183,8 @@ bool operator==(const JSON::Value& l, const JSON::Value& r) {
             auto v_double_r = get<double>(r);
             return v_double_l == v_double_r;
         } else if (holds_alternative<string>(arg)) {
-            auto v_string_l = get<double>(arg);
-            auto v_string_r = get<double>(r);
+            auto v_string_l = get<string>(arg);
+            auto v_string_r = get<string>(r);
             return v_string_l == v_string_r;
         } else if (holds_alternative<JSON>(arg)) {
             auto v_json_l = get<JSON>(arg);
@@ -195,7 +195,7 @@ bool operator==(const JSON::Value& l, const JSON::Value& r) {
 }
 
 bool operator!=(const JSON::Value& l, const JSON::Value& r) {
-    return l == r ? false : true;
+    return !(l == r);
 }
 
 JSON::Value JSON::operator[](int index) const {
