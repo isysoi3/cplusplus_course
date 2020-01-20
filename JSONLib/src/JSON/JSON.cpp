@@ -17,6 +17,15 @@ JSON::JSON(JSON::Array array) {
     root = array;
 }
 
+JSON::JSON(std::initializer_list<Value> initializer_list) {
+    root = initializer_list;
+}
+
+JSON::JSON(initializer_list<std::pair<const std::string, Value>> initializer_map) {
+    root = initializer_map;
+}
+
+
 JSON::JSON(const JSON &json) {
     visit([this](Object &&arg) {
         if (holds_alternative<KeyValue>(arg)) {

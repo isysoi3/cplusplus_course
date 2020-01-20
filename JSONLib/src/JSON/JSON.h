@@ -7,10 +7,12 @@
 
 #include <vector>
 #include <map>
+#include <unordered_map>
 #include <variant>
 #include <string>
 #include <utility>
 #include <iostream>
+#include <initializer_list>
 
 class JSON {
 public:
@@ -27,6 +29,10 @@ public:
     JSON();
 
     JSON(Array array);
+
+    JSON(std::initializer_list<Value>);
+
+    JSON(std::initializer_list<std::pair<const std::string, Value>>);
 
     JSON(const JSON &json);
 

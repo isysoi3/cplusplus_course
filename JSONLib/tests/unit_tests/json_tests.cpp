@@ -9,17 +9,35 @@ TEST(isEmpty, Equals) {
 }
 
 TEST(isNotEmpty, Equals) {
-    JSON json = JSON({1, 2});
+    JSON json = {1, 2};
     bool expected = false;
     bool actual = json.isEmpty();
     EXPECT_EQ(expected, actual);
 }
 
-TEST(isArray, Equals) {
-    JSON json = JSON({1, 2});
+TEST(initializerList, Equals) {
+    JSON json = { 1, 1.3 };
+
     bool expected = true;
     bool actual = json.isArray();
     EXPECT_EQ(expected, actual);
+}
+
+TEST(isJSON, Equals) {
+    JSON::Array array = {212, 22, 22};
+    JSON json = { {"12", 2}, { "2" , array}};
+
+    bool expected = false;
+    bool actual = json.isArray();
+    EXPECT_EQ(expected, actual);
+}
+
+TEST(isJSONAndArray, Equals) {
+    JSON childArray = { 212, 22, 22 };
+    JSON json = { {"12", 2}, { "2" , childArray}};
+
+    EXPECT_EQ(json.isArray(), false);
+    EXPECT_EQ( (*json.getValue<JSON>("2")).isArray(), true);
 }
 
 TEST(isNotArray, Equals) {
