@@ -1,0 +1,4 @@
+"/Users/isysoi/Library/Application Support/JetBrains/Toolbox/apps/CLion/ch-0/193.5662.56/CLion.app/Contents/bin/cmake/mac/bin/cmake" -DCMAKE_BUILD_TYPE=Debug -G "CodeBlocks - Unix Makefiles" /Users/isysoi/Development/GitHub/BSU/С++/Exam/task1
+-- Configuring done
+-- Generating done
+-- Build files have been written to: /Users/isysoi/Development/GitHub/BSU/С++/Exam/task1/cmake-build-debug

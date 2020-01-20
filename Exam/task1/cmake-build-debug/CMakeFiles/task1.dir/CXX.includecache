@@ -1,0 +1,20 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/Users/isysoi/Development/GitHub/BSU/С++/Exam/task1/Sequence.h
+memory
+-
+
+/Users/isysoi/Development/GitHub/BSU/С++/Exam/task1/main.cpp
+iostream
+-
+vector
+-
+Sequence.h
+/Users/isysoi/Development/GitHub/BSU/С++/Exam/task1/Sequence.h
+
