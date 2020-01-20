@@ -1,0 +1,26 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/Users/isysoi/Development/GitHub/BSU/С++/Exam/task2/Tokenizer.cpp
+Tokenizer.h
+/Users/isysoi/Development/GitHub/BSU/С++/Exam/task2/Tokenizer.h
+
+/Users/isysoi/Development/GitHub/BSU/С++/Exam/task2/Tokenizer.h
+string
+-
+utility
+-
+vector
+-
+
+/Users/isysoi/Development/GitHub/BSU/С++/Exam/task2/main.cpp
+iostream
+-
+Tokenizer.h
+/Users/isysoi/Development/GitHub/BSU/С++/Exam/task2/Tokenizer.h
+

@@ -1,0 +1,3 @@
+/Users/isysoi/Development/GitHub/BSU/С++/Exam/task2/cmake-build-debug/CMakeFiles/rebuild_cache.dir
+/Users/isysoi/Development/GitHub/BSU/С++/Exam/task2/cmake-build-debug/CMakeFiles/edit_cache.dir
+/Users/isysoi/Development/GitHub/BSU/С++/Exam/task2/cmake-build-debug/CMakeFiles/task2.dir
