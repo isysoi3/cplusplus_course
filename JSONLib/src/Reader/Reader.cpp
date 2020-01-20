@@ -71,7 +71,7 @@ void Reader::parser(const std::string &cursor) {
                 s.pop();
                 break;
             case list_open:
-                insert<JSON::Array>();
+                insert<Array>();
                 if (cursor == "]") {
                     pushBuffer();
                     return;
@@ -185,7 +185,7 @@ void Reader::insert(std::string &value) {
 void Reader::addJSONElement() {
     if (s_value.size() < 2) throw ReaderException("Parsing failed");
 
-    JSON::Value value_read;
+    Value value_read;
     std::string key_read;
 
     value_read = s_value.top();
@@ -203,7 +203,7 @@ void Reader::addJSONElement() {
 
 void Reader::addArrayElement() {
     if (s_value.size() < 2) throw ReaderException("Parsing failed");
-    JSON::Value value_read;
+    Value value_read;
 
     value_read = s_value.top();
     s_value.pop();

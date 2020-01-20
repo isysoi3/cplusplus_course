@@ -19,7 +19,7 @@ public:
 
 private:
     std::stack<std::string> s;
-    std::stack<JSON::Value> s_value;
+    std::stack<Value> s_value;
 
     // Parser variables
     enum stack_map {

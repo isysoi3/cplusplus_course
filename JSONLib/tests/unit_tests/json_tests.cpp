@@ -24,7 +24,7 @@ TEST(initializerList, Equals) {
 }
 
 TEST(isJSON, Equals) {
-    JSON::Array array = {212, 22, 22};
+    Array array = {212, 22, 22};
     JSON json = { {"12", 2}, { "2" , array}};
 
     bool expected = false;
@@ -63,4 +63,54 @@ TEST(copyJSONAndEdit, NotEquals) {
     json2.addValue(key, 2);
 
     EXPECT_NE(json1[key], json2[key]);
+}
+
+TEST(iteratorBegin, Equals) {
+    JSON json = {1, 2, std::string("21")};
+
+    auto expected = json[0];
+    auto actual = *json.begin();
+    EXPECT_EQ(expected, actual);
+}
+
+TEST(forEachNonEmpty, Equals) {
+    JSON json = {1, 2, std::string("21")};
+    std::stringstream ss;
+
+    for(const auto& value : json) {
+        ss << value << std::endl;
+    }
+
+    auto expected = false;
+    auto actual = ss.str().empty();
+    EXPECT_EQ(expected, actual);
+}
+
+TEST(forEachEmpty, Equals) {
+    JSON json = {};
+    std::stringstream ss;
+
+    for(const auto& value : json) {
+        ss << value << std::endl;
+    }
+
+    auto expected = true;
+    auto actual = ss.str().empty();
+    EXPECT_EQ(expected, actual);
+}
+
+TEST(findIteratorSuccess, Equals) {
+    JSON json = {1, 2, std::string("21")};
+
+    auto expected = 2;
+    auto actual = *std::find(json.begin(), json.end(), expected);
+    EXPECT_EQ(expected, actual);
+}
+
+TEST(findIteratorEnd, Equals) {
+    JSON json = {1, 2, std::string("21")};
+
+    auto expected = json.end();
+    auto actual = std::find(json.begin(), json.end(), 12);
+    EXPECT_EQ(expected, actual);
 }

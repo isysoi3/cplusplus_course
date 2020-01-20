@@ -13,7 +13,7 @@ JSON::JSON() {
     root = KeyValue();
 };
 
-JSON::JSON(JSON::Array array) {
+JSON::JSON(Array array) {
     root = array;
 }
 
@@ -59,7 +59,7 @@ bool JSON::isArray() {
     return root.index() == 1;
 }
 
-void JSON::addValue(const string &key, JSON::Value value) {
+void JSON::addValue(const string &key, Value value) {
     if (holds_alternative<KeyValue>(root)) {
         auto v_map = get<KeyValue>(root);
         v_map[key] = value;
@@ -69,7 +69,7 @@ void JSON::addValue(const string &key, JSON::Value value) {
     }
 }
 
-void JSON::addValue(const JSON::Value &value) {
+void JSON::addValue(const Value &value) {
     if (holds_alternative<Array>(root)) {
         auto v_array = get<Array>(root);
         v_array.push_back(value);
@@ -79,7 +79,7 @@ void JSON::addValue(const JSON::Value &value) {
     }
 }
 
-void JSON::editValue(const std::string &forKey, const JSON::Value &newValue) {
+void JSON::editValue(const std::string &forKey, const Value &newValue) {
     if (holds_alternative<KeyValue>(root)) {
         auto v_map = get<KeyValue>(root);
         if (v_map.find(forKey) != v_map.end()) {
@@ -93,7 +93,7 @@ void JSON::editValue(const std::string &forKey, const JSON::Value &newValue) {
     }
 }
 
-void JSON::editValue(int atIndex, const JSON::Value &newValue) {
+void JSON::editValue(int atIndex, const Value &newValue) {
     if (holds_alternative<Array>(root)) {
         auto v_array = get<Array>(root);
         if (atIndex < 0  || atIndex >= v_array.size()) throw JSONException("Invalid index");
@@ -175,7 +175,7 @@ std::istream &operator>>(std::istream &in, JSON &j) {
     return in;
 }
 
-std::ostream &operator<<(std::ostream &out, const JSON::Value &v) {
+std::ostream &operator<<(std::ostream &out, const Value &v) {
     out << JSON::valueToString(v);
     return out;
 }
@@ -183,13 +183,13 @@ std::ostream &operator<<(std::ostream &out, const JSON::Value &v) {
 bool operator==(const JSON& l, const JSON& r) {
     if (l.root.index() != r.root.index()) return false;
     return visit([r](JSON::Object &&arg) -> bool {
-        if (holds_alternative<JSON::KeyValue>(arg)) {
-            auto v_map_l = get<JSON::KeyValue>(arg);
-            auto v_map_r = get<JSON::KeyValue>(r.root);
+        if (holds_alternative<KeyValue>(arg)) {
+            auto v_map_l = get<KeyValue>(arg);
+            auto v_map_r = get<KeyValue>(r.root);
             return v_map_l == v_map_r;
-        } else if (holds_alternative<JSON::Array>(arg)) {
-            auto v_array_l = get<JSON::Array>(arg);
-            auto v_array_r = get<JSON::Array>(r.root);
+        } else if (holds_alternative<Array>(arg)) {
+            auto v_array_l = get<Array>(arg);
+            auto v_array_r = get<Array>(r.root);
             return v_array_l == v_array_r;
         }
     }, l.root);
@@ -199,9 +199,9 @@ bool operator!=(const JSON& l, const JSON& r) {
     return !(l == r);
 }
 
-bool operator==(const JSON::Value& l, const JSON::Value& r) {
+bool operator==(const Value& l, const Value& r) {
     if (l.index() != r.index()) return false;
-    return visit([r](JSON::Value &&arg) -> bool {
+    return visit([r](Value &&arg) -> bool {
         if (holds_alternative<void *>(arg)) {
             return true;
         } else if (holds_alternative<bool>(arg)) {
@@ -228,11 +228,11 @@ bool operator==(const JSON::Value& l, const JSON::Value& r) {
     }, l);
 }
 
-bool operator!=(const JSON::Value& l, const JSON::Value& r) {
+bool operator!=(const Value& l, const Value& r) {
     return !(l == r);
 }
 
-JSON::Value JSON::operator[](int index) const {
+Value JSON::operator[](int index) const {
     if (std::holds_alternative<Array>(root)) {
         auto v_array = std::get<Array>(root);
         if (index < 0 || index >= v_array.size()) throw JSONException("Invalid index");
@@ -242,7 +242,7 @@ JSON::Value JSON::operator[](int index) const {
     }
 }
 
-JSON::Value JSON::operator[](const std::string &key) const {
+Value JSON::operator[](const std::string &key) const {
     if (std::holds_alternative<KeyValue>(root)) {
         auto v_map = std::get<KeyValue>(root);
         return v_map[key];
@@ -251,10 +251,34 @@ JSON::Value JSON::operator[](const std::string &key) const {
     }
 };
 
-std::optional<JSON::Array> JSON::asArray() {
+std::optional<Array> JSON::asArray() {
     if (std::holds_alternative<Array>(root)) {
         return std::get<Array>(root);
     } else {
         return std::nullopt;
     }
 }
+
+JSON::JSONIterator JSON::begin() {
+    if (std::holds_alternative<Array>(root)) {
+        return JSONIterator(std::get<Array>(root).begin());
+    } else {
+        return JSONIterator(std::get<KeyValue>(root).begin());
+    }
+}
+
+JSON::JSONIterator JSON::end() {
+    if (std::holds_alternative<Array>(root)) {
+        return JSONIterator(std::get<Array>(root).end());
+    } else {
+        return JSONIterator(std::get<KeyValue>(root).end());
+    }
+}
+
+//JSON::const_iterator JSON::begin() const {
+//
+//}
+//
+//JSON::const_iterator JSON::end() const {
+//
+//}

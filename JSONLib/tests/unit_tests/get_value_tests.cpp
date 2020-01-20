@@ -66,10 +66,10 @@ TEST(getNull, Equals) {
 }
 
 TEST(getArray, Equals) {
-    JSON::Array array = {1, 2};
+    Array array = {1, 2};
     JSON json = JSON(array);
 
-    JSON::Array expected = array;
+    Array expected = array;
     auto actual = json.asArray();
     EXPECT_EQ(expected, actual);
 }

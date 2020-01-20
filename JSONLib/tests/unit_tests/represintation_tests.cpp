@@ -135,7 +135,7 @@ TEST(toStringComplex, Equals) {
     std::string key = "1";
     root.addValue(key, value);
 
-    auto array = JSON::Array();
+    auto array = Array();
     array.emplace_back(1);
     array.emplace_back(2);
     JSON child = JSON(array);
