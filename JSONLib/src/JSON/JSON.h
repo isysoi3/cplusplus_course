@@ -100,6 +100,10 @@ public:
 
     void editValue(int atIndex, const Value &newValue);
 
+    void removeValue(const std::string &forKey);
+
+    void removeValue(int atIndex);
+
     template<typename T>
     std::optional<T> getValue(const std::string &key);
 

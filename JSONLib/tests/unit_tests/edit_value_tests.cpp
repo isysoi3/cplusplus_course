@@ -111,3 +111,66 @@ TEST(editNonExistingValue, Equals) {
         EXPECT_EQ(expected, actual);
     }
 }
+
+TEST(removeWithKey, Equals) {
+    std::string key = "1";
+    JSON json = { {key, 2} };
+    json.removeValue(key);
+
+    bool expected = true;
+    bool actual = json.isEmpty();
+    EXPECT_EQ(expected, actual);
+}
+
+TEST(removeFromEmptyWithIndex, Equals) {
+    std::string expected = "Invalid index";
+    JSON json = JSON({1});
+    try {
+        json.removeValue(1);
+    } catch (JSONException &ex) {
+        std::string actual = ex.what();
+        EXPECT_EQ(expected, actual);
+    }
+}
+
+TEST(removeFromEmptyWithKey, Equals) {
+    std::string expected = "No value for key";
+    JSON json;
+    try {
+        json.removeValue("1");
+    } catch (JSONException &ex) {
+        std::string actual = ex.what();
+        EXPECT_EQ(expected, actual);
+    }
+}
+
+TEST(removeInArrayWithKey, Equals) {
+    std::string expected = "Failed to remove KeyValue in Array";
+    JSON json = JSON({1, 2});
+    try {
+        json.removeValue("1");
+    } catch (JSONException &ex) {
+        std::string actual = ex.what();
+        EXPECT_EQ(expected, actual);
+    }
+}
+
+TEST(removeInKeyValueWithIndex, Equals) {
+    std::string expected = "Failed to remove value in KeyValue";
+    JSON json;
+    try {
+        json.removeValue(1);
+    } catch (JSONException &ex) {
+        std::string actual = ex.what();
+        EXPECT_EQ(expected, actual);
+    }
+}
+
+TEST(removeWithIndex, Equals) {
+    JSON json = {2};
+    json.removeValue(0);
+
+    bool expected = true;
+    bool actual = json.isEmpty();
+    EXPECT_EQ(expected, actual);
+}
